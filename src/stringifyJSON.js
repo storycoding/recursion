@@ -28,6 +28,7 @@ var addComma = function (string) {
 	} else {
 		string += ",";
 	}
+	
 	return string;
 };
 
@@ -166,12 +167,16 @@ var stringifyJSON = function(obj) {
 
 
 
-
-
-
 //testing my function vs the original
-stringifiableObjects.forEach(function(element) {
-    console.log(element);
-    console.log("JSON.stringify = " + JSON.stringify(element));
-    console.log("stringifyJSON = " + stringifyJSON(element));
-});
+var compareStringify = function() {
+	
+	stringifiableObjects.forEach(function(element) {
+
+   		console.log(element);
+    	console.log("JSON.stringify = " + JSON.stringify(element));
+    	console.log("stringifyJSON = " + stringifyJSON(element));
+
+    	console.log("======================================="); 
+	});
+
+}
