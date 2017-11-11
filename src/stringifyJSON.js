@@ -95,7 +95,7 @@ var stringifyJSON = function(obj) {
 			string += "}";
 			string = addComma(string);
 		}
-		string = removeComma(string); //removes commas between obj and arr
+		//string = removeComma(string); //removes commas between obj and arr
 	  };
 
 
@@ -152,14 +152,14 @@ var stringifyJSON = function(obj) {
 			string = addComma(string);
 
 		}
-		string = removeComma(string); //removes commas between value and arr
+		//string = removeComma(string); //removes commas between value and arr
 	  };
 
 
 
 
 	checkType(obj);
-
+	string = removeComma(string);
   	return string;
 };
 
