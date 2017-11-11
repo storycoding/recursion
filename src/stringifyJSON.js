@@ -105,6 +105,7 @@ var stringifyJSON = function(obj) {
 
 //testing my function vs the original
 stringifiableObjects.forEach(function(element) {
+	debugger;
     console.log(element);
     console.log("JSON.stringify = " + JSON.stringify(element));
     console.log("stringifyJSON = " + stringifyJSON(element));

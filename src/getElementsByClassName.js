@@ -12,6 +12,9 @@ var getElementsByClassName = function(className) {
 	//use a helper function inside getElementsById to set the initial children traversal loop
 	var traverse = function(parent){
 		
+		if ( (parent.className) && (parent.className.includes(className)) ) {
+				elements.push(parent);
+			}
 
 		if(parent.hasChildNodes()) { // this method doesn't work in all children types
 			var children = parent.childNodes;
@@ -19,13 +22,8 @@ var getElementsByClassName = function(className) {
 			children.forEach(function(child){
   				traverse(child);
 			});
-	
 		} 
-			if ( (parent.className) && (parent.className.includes(className)) ) {
-				elements.push(parent);
-			}
-		
-
+	
 		return;
 	};
 
