@@ -27,11 +27,10 @@ var cutAllSpaces = function(string) {
 				string = string.substr(1);
 			}
 			
-		  if	(string.length < 1) {
+		  if (string.length < 1) {
 		    break;
 		  }
 			}
-
 
 		//inside quotes, add everything
  		while (insideQuotes) {
@@ -48,27 +47,24 @@ var cutAllSpaces = function(string) {
   if	(string.length < 1) {
 		    break;
 		  }
-
 	}
 	
-
 	return spacedOutString;
 };
-
 
 //===========================================//
 //============ array or object ==============//
 //===========================================//
 
-	var takeObject = function(string) {
-  		var object = {};
+	var takeObject = function(string,object) {
   		pair(string,object);
+  		return object;
   	};
 
 
-  	var takeArray = function(string) {
-  		var array = [];
+  	var takeArray = function(string,array) {
   		sequence(string,array);
+  		return array;
   	};
 
 
@@ -78,53 +74,73 @@ var cutAllSpaces = function(string) {
 
 	//evaluate char values and progress down
 	//the chain as in http://json.org/
+	var nextCondition = function(string,object) {
 
-	var next = function(string) {
-
-		//breaks if string length === 0
 		if (string.length === 0) {
 			return;
 		}
 
-  	condition(string);
-  	//identifies the first character in the string;
-
-  	//removes that first character;
-
-  		//calls the next step according to current char
-
-  	
-  	//loop
-
-	};
-
-
-
-	//iterate through all the breakpoints and decides what to call next
-	var condition = function(string) {
-
 		if (string.charAt(0) === "{" ) {
+			string = string.substr(1);
+
+			if (typeof object === "object") {
+				var key = takeString(string);
+				var value = nextCondition(string,object);
+				object[key] = value;
+				
+
+			} else {
+				var element = nextCondition(string,object);
+				object.push(element);
+			}
 			//run obj
 
 		} else if (string.charAt(0) === "[") {
+			string = string.substr(1);
+
+			if (typeof object === "object") {
+				var key = takeString(string);
+				var value = nextCondition(string,object);
+				object[key] = value;
+
+			} else {
+				var element = nextCondition(string,object);
+				object.push(element);
+			}
 			//run arr
 
 		} else if (string.charAt(0) === "\"") { // consider escape
+			string = string.substr(1);
 			takeString(string);
+
 		} else if (string.charAt(0) === "\\") {
+			string = string.substr(1);
 			takeString(string);
+
 		} else if (string.charAt(0) === "\/") {
+			string = string.substr(1);
 			takeString(string);
+
 		} else if (string.charAt(0) === "\b") {
+			string = string.substr(1);
 			takeString(string);
+
 		} else if (string.charAt(0) === "\f") {
+			string = string.substr(1);
 			takeString(string);
+
 		} else if (string.charAt(0) === "\n") {
+			string = string.substr(1);
 			takeString(string);
+
 		} else if (string.charAt(0) === "\r") {
+			string = string.substr(1);
 			takeString(string);
+
 		} else if (string.charAt(0) === "\t") {
+			string = string.substr(1);
 			takeString(string);
+
 		//} else if (string.charAt(0) === "\u") { - \u causes error
 			//run string
 
@@ -139,7 +155,25 @@ var cutAllSpaces = function(string) {
 			}
 		}
 
-	return;
+		//think of scenarios to return object instead
+		if (string.charAt(0) === "}") {
+			string = string.substr(1);
+			return object;
+
+		} else if (string.charAt(0) === "]") {
+			string = string.substr(1);
+			return object;
+
+		} else if (string.charAt(0) === "\"") {
+			string = string.substr(1);
+			return object;
+		}
+
+		if (string.length > 0) {
+			return nextCondition(string,object);
+		}
+		
+	return object;
 	};
 
 
@@ -245,10 +279,10 @@ var takeNullTrueFalse = function(string) {
 	//takes an obj and gives it a pair from string
 	var pair = function(string,object) { // CHECK FOR SPACES
 		var key = (takeString(string));
-		var value = "";
+		var value = nextCondition(string,value);
 
 
-		object[key] = condition(string); // CHECK FOR NESTED OBJS
+		object[key] = value; // CHECK FOR NESTED OBJS
 		if (string.charAt(0) === ",") {
 			string = string.substr(1);
 			pair(string,object);
@@ -257,7 +291,7 @@ var takeNullTrueFalse = function(string) {
 
 	//will keep adding until it reaches a "]"
 	var sequence = function(string,array) {
-		var value = condition(string);
+		var value = nextCondition(string);
 		array.push(value);
 		if(string.charAt(0) !== "]") {
 			sequence(string,array);
@@ -274,25 +308,27 @@ var takeNullTrueFalse = function(string) {
 
 var parseJSON = function(json) {
 
-	//rid of pointless spaces
+	//remove extra spaces
 	json = cutAllSpaces(json);
 
-	//the parent
-	var parsedObject;
+	//the root
+	var parent;
 
 	//object or array?
 	if (string.charAt(0) === "{") {
-		string = string.substr(1);
-		parsedObject = takeObject(json);
+		string = string.substr(1); //removes "{"
+		parent = {};
+		parent = takeObject(json,parent);
+		string = string.substr(1); //removes "}"
 
 	} else if (string.charAt(0) === "[") {
-		string = string.substr(1);
-		parsedObject = takeArray(json);
+		string = string.substr(1); //removes "["
+		parent = [];
+		parent = takeArray(json,parent);
+		string = string.substr(1); //removes "]"
 	}
-	// somewhere in stringToObj it needs to
-	// check for the inside values (if chain)
 
-	return parsedObject;
+	return parent;
 };
 
 
