@@ -4,13 +4,17 @@
 // but you're not, so you'll write it from scratch:
 
 var parseJSON = function(json) {
-
+	var parsedObject;
 	//CHAR-BY-CHAR PROGRESSION
 
 
   	//evaluate char values and progress down the chain as in http://json.org/
- 	var next = function() {
+ 	var next = function(string) {
+ 		if (string.length === 0) {
+ 			return;
+ 		}
 
+ 		cutSpace(string);
 	  	//breaks if string length === 0
 
 	  	//identifies the first character in the string;
@@ -29,17 +33,56 @@ var parseJSON = function(json) {
   		//if first character in string is a space
   			//cut the first space
   			//loop
+  		
+  		if (string.charAt(0) === 0) {
+  			string = string.trim();
+  			cutSpace(string);
+  		}
   		//else - proceed
-
-  	}
+  		return string;
+  		
+  	};
   
   	//iterate through all the breakpoints and decides what to call next
   	var condition = function(string) {
-  		//if char is (type)
-  			//treat body as a var of that type
 
+  		if (string.charAt(0) === "{" ) {
+  			//run obj
 
-  	}
+  		} else if (string.charAt(0) === "[") {
+  			//run arr
+
+  		} else if (string.charAt(0) === "\"") { // consider escape
+  			//run string
+  		} else if (string.charAt(0) === "\\") {
+  			//run string
+  		} else if (string.charAt(0) === "\/") {
+  			//run string
+  		} else if (string.charAt(0) === "\b") {
+  			//run string
+  		} else if (string.charAt(0) === "\f") {
+  			//run string
+  		} else if (string.charAt(0) === "\n") {
+  			//run string
+  		} else if (string.charAt(0) === "\r") {
+  			//run string
+  		} else if (string.charAt(0) === "\t") {
+  			//run string
+  		//} else if (string.charAt(0) === "\u") { - \u causes error
+  			//run string
+
+  		} else if (string.charAt(0) === "-") {
+  			//run number
+  		} else {
+  			for (var i = 0; i <= 9; i++) {
+  				if (string.charAt(0) === i.toString()) {
+  					//run number
+  				}
+  			}
+  		}
+
+  	return;
+  	};
 
 
 
@@ -56,16 +99,17 @@ var parseJSON = function(json) {
 
   	//parsing example:
   	var stringToObj = function(string) {
+  		//break if it reaches a ""
 		var object = {};
 		var key // = part of string
 		var value // = part of string
 		object[key] = value;
 
 		return object;
-		}
+		};
 
 	//somewhere in stringToObj it needs to check for the inside values (if chain)
-
+	return parsedObject;
 };
 
 
