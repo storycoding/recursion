@@ -2,12 +2,14 @@
 //============ helper functions =============//
 //===========================================//
 
-var cutAllSpaces = function(string) {
+// removes all unnecessary spaces and escape characters
+var fixJSON = function(string) {
 	var spacedOutString = "";
 	var insideQuotes = false;
 
 
-	//cuts out the spaces outside quote marks ""
+	//cuts out the spaces and escape chars outside double quotes
+
 	//stores the result in a new string
 	
 	
@@ -16,6 +18,17 @@ var cutAllSpaces = function(string) {
 		while (!insideQuotes) {
 			if (string.charAt(0) === " ") {
 				string = string.substr(1);
+
+			} else if ( string.charAt(0) === "\\"  ||
+				 string.charAt(0) === "\/"  ||
+				 string.charAt(0) === "\b"  ||
+				 string.charAt(0) === "\f"  ||
+				 string.charAt(0) === "\n"  ||
+				 string.charAt(0) === "\r"  ||
+				 string.charAt(0) === "\t"
+				) {
+				string = string.substr(1);
+
 
 		//check if we're etering quotes
 			} else if (string.charAt(0) === "\"") {
@@ -62,7 +75,7 @@ var cutAllSpaces = function(string) {
 var parseJSON = function(json) {
 
 	//remove extra spaces
-	json = cutAllSpaces(json);
+	json = fixJSON(json);
 
 	//the root
 	var parent;
