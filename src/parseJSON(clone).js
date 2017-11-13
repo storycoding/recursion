@@ -46,10 +46,10 @@ var cutAllSpaces = function(string) {
  			}
 		}
 		
-	  	if	(string.length < 1) {
-			    break;
-			  }
-		}
+  if	(string.length < 1) {
+		    break;
+		  }
+	}
 	
 	return spacedOutString;
 };
@@ -71,13 +71,13 @@ var parseJSON = function(json) {
 	if (json.charAt(0) === "{") {
 		json = json.substr(1); //removes "{"
 		parent = {};
-		parent = pair(json,parent);
+		pair(json,parent);
 		json = json.substr(1); //removes "}"
 
 	} else if (json.charAt(0) === "[") {
 		json = json.substr(1); //removes "["
 		parent = [];
-		parent = sequence(json,parent);
+		sequence(json,parent);
 		json = json.substr(1); //removes "]"
 	}
 
@@ -299,8 +299,8 @@ var takeNullTrueFalse = function(string) {
 	//takes an obj and gives it a pair from string
 	var pair = function(string,object) { // CHECK FOR SPACES
 		var key = (takeString(string));
-		string = string.substr(1); // remmoves the colon
-		var value = nextCondition(string);
+		string = string.substr(1); // remmoves the comma
+		var value = nextCondition(string,value);
 
 
 		object[key] = value; // CHECK FOR NESTED OBJS
