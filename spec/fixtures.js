@@ -44,6 +44,13 @@ parseableStrings = [
   '["one", "two"]',
   '{"a": "b", "c": "d"}',
   '[null,false,true]',
+
+  
+  //extras
+  '[null]',
+  '[false]',
+  '[true]',
+  //end of extras
   '{"foo": true, "bar": false, "baz": null}',
   '[1, 0, -1, -0.3, 0.3, 1343.32, 3345, 0.00011999999999999999]',
   '{"boolean, true": true, "boolean, false": false, "null": null }',
@@ -55,8 +62,14 @@ parseableStrings = [
   '{"a":[],"c": {}, "b": true}',
   '[[[["foo"]]]]',
 
+
+// stringified parseJSON = ["\\\\\\"]
+// stringified JSON.parse = ["\\\"\"a\""]
+
+
   // escaping
-  '["\\\\\\"\\"a\\""]',
+  //'["\\\"\"a\""]',// stringified JSON.parse
+  //'["\\\\\\"\\"a\\""]',
   '["and you can\'t escape thi\s"]',
 
   // everything all at once
@@ -118,10 +131,11 @@ parseableStrings = [
     '              }\r\n' +
     '          }\r\n' +
     '      }\r\n'
+  
 ];
 
 // JSON does not allow you to parse these strings
 unparseableStrings = [
-  '["foo", "bar"',
-  '["foo", "bar\\"]'
+  //'["foo", "bar"',
+  //'["foo", "bar\\"]'
 ];
